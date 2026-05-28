@@ -5,11 +5,11 @@
 
 ### Versões:
 
-- PHP: 8.2.29
+- PHP: 8.4.21
 - MySql: 5.7.11
-- Laravel: 10.48.29
+- Laravel: 13.12.0
 - NodeJs: 18x
-- Composer: 2.8.11
+- Composer: 2.9.5
 
 ##
 ### Como funciona o versionamento do sistema:
