@@ -69,22 +69,28 @@
     </aside>
 
     {{-- Conteúdo --}}
-    <main class="main-content flex-grow-1 p-4">
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
-            </div>
-        @endif
+    <main class="main-content flex-grow-1">
+        <div class="content-wrapper">
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                </div>
+            @endif
 
-        @if(session('error'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{ session('error') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
-            </div>
-        @endif
+            @if(session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                </div>
+            @endif
 
-        @yield('content')
+            @yield('content')
+        </div>
+
+        <footer class="footer">
+            <span>SGS &mdash; Sistema de Gestão de Sistemas &bull; v2.0.0</span>
+        </footer>
     </main>
 </div>
 
@@ -95,7 +101,6 @@ document.getElementById('sidebarToggle').addEventListener('click', function () {
     localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
 });
 
-// Restaurar estado
 if (localStorage.getItem('sidebarCollapsed') === 'true') {
     document.getElementById('sidebar').classList.add('collapsed');
 }
