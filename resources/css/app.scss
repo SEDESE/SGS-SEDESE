@@ -118,3 +118,42 @@ body {
     }
   }
 }
+
+// Login page
+.login-page {
+  background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-wrapper {
+  width: 100%;
+  max-width: 380px;
+  padding: 1rem;
+}
+
+.login-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+.login-logo {
+  text-align: center;
+  margin-bottom: 1.5rem;
+
+  strong {
+    display: block;
+    font-size: 2rem;
+    color: #343a40;
+    letter-spacing: 2px;
+  }
+
+  small {
+    color: #6c757d;
+    font-size: 0.8rem;
+  }
+}
