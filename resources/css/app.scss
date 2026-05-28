@@ -1,0 +1,20 @@
+// Variáveis AdminLTE-like
+$body-bg: #f4f6f9;
+$sidebar-bg: #343a40;
+$sidebar-color: #c2c7d0;
+$topbar-bg: #343a40;
+
+// Bootstrap
+@import "bootstrap/scss/bootstrap";
+
+// FontAwesome
+@import "@fortawesome/fontawesome-free/scss/fontawesome";
+@import "@fortawesome/fontawesome-free/scss/solid";
+@import "@fortawesome/fontawesome-free/scss/regular";
+@import "@fortawesome/fontawesome-free/scss/brands";
+
+// Estilos base AdminLTE-like
+body {
+    background-color: $body-bg;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
