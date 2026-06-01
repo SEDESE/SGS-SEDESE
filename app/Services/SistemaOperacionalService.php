@@ -47,16 +47,17 @@ class SistemaOperacionalService
     }
 
     /**
-     * Exclui o SO apenas se não houver aplicações vinculadas (RF-07.4).
+     * Exclui o SO apenas se não houver aplicações vinculadas — RF-07.4.
      *
      * @throws \RuntimeException
      */
     public function excluir(SistemaOperacional $so): void
     {
-        // Quando o relacionamento com Aplicacao for implementado, trocar pelo check real:
-        // if ($so->aplicacoes()->exists()) {
-        //     throw new \RuntimeException('Não é possível excluir um SO com aplicações vinculadas.');
-        // }
+        if ($so->aplicacoes()->exists()) {
+            throw new \RuntimeException(
+                'Não é possível excluir um SO com aplicações vinculadas. Desative-o em vez disso.'
+            );
+        }
 
         $so->delete();
     }

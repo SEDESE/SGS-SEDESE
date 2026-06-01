@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\FamiliaOS;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class SistemaOperacional extends Model
 {
@@ -29,9 +30,8 @@ class SistemaOperacional extends Model
         return $query->where('ativo', true);
     }
 
-    public function aplicacoes()
+    public function aplicacoes(): HasMany
     {
-        // Relacionamento será completado na sprint de Aplicações (RF-05)
-        // return $this->hasMany(Aplicacao::class);
+        return $this->hasMany(Aplicacao::class, 'so_id');
     }
 }

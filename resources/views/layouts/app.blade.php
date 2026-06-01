@@ -56,6 +56,12 @@
                         <i class="fas fa-tachometer-alt me-2" aria-hidden="true"></i> Dashboard
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('aplicacoes.*') ? 'active' : '' }}"
+                       href="{{ route('aplicacoes.index') }}">
+                        <i class="fas fa-server me-2" aria-hidden="true"></i> Aplicações
+                    </a>
+                </li>
                 @if(auth()->user()->isAdmin())
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.usuarios.*') ? 'active' : '' }}"
