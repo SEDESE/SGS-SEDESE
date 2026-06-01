@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\SistemaOperacionalController;
 use App\Http\Controllers\Admin\UsuarioController;
 
 Route::get('/', function () {
@@ -22,6 +23,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('usuarios', UsuarioController::class);
     Route::patch('usuarios/{usuario}/desativar', [UsuarioController::class, 'desativar'])
         ->name('usuarios.desativar');
+
+    Route::resource('sistemas-operacionais', SistemaOperacionalController::class);
+    Route::patch('sistemas-operacionais/{sistema_operacional}/desativar', [SistemaOperacionalController::class, 'desativar'])
+        ->name('sistemas-operacionais.desativar');
+    Route::patch('sistemas-operacionais/{sistema_operacional}/ativar', [SistemaOperacionalController::class, 'ativar'])
+        ->name('sistemas-operacionais.ativar');
 });
 
 require __DIR__.'/auth.php';

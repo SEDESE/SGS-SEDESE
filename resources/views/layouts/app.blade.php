@@ -63,6 +63,12 @@
                         <i class="fas fa-users me-2" aria-hidden="true"></i> Usuários
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('admin.sistemas-operacionais.*') ? 'active' : '' }}"
+                       href="{{ route('admin.sistemas-operacionais.index') }}">
+                        <i class="fas fa-desktop me-2" aria-hidden="true"></i> Sist. Operacionais
+                    </a>
+                </li>
                 @endif
             </ul>
         </nav>
