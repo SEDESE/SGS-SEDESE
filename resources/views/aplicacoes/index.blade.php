@@ -106,7 +106,7 @@
                             </button>
 
                             {{-- Editar --}}
-                            <a href="{{ route('aplicacoes.edit', $aplicacao) }}"
+                            <a href="{{ route('aplicacoes.edit', $aplicacao->id) }}"
                                class="btn btn-primary btn-sm"
                                aria-label="Editar {{ $aplicacao->nome_aplicacao }}">
                                 <i class="fas fa-edit" aria-hidden="true"></i>
@@ -115,7 +115,7 @@
                             {{-- Excluir — somente Admin --}}
                             @if(auth()->user()->isAdmin())
                             <form method="POST"
-                                  action="{{ route('aplicacoes.destroy', $aplicacao) }}"
+                                  action="{{ route('aplicacoes.destroy', $aplicacao->id) }}"
                                   class="d-inline">
                                 @csrf @method('DELETE')
                                 <button class="btn btn-danger btn-sm"
@@ -306,7 +306,7 @@
             </div>{{-- /modal-body --}}
 
             <div class="modal-footer">
-                <a href="{{ route('aplicacoes.edit', $aplicacao) }}" class="btn btn-primary btn-sm">
+                <a href="{{ route('aplicacoes.edit', $aplicacao->id) }}" class="btn btn-primary btn-sm">
                     <i class="fas fa-edit me-1" aria-hidden="true"></i> Editar
                 </a>
                 <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">

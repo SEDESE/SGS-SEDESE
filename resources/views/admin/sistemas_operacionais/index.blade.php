@@ -36,7 +36,7 @@
                         </td>
                         <td>{{ $so->created_at->format('d/m/Y') }}</td>
                         <td>
-                            <a href="{{ route('admin.sistemas-operacionais.edit', $so) }}"
+                            <a href="{{ route('admin.sistemas-operacionais.edit', $so->id) }}"
                                class="btn btn-primary btn-sm"
                                aria-label="Editar SO">
                                 <i class="fas fa-edit" aria-hidden="true"></i>
@@ -44,7 +44,7 @@
 
                             @if($so->ativo)
                             <form method="POST"
-                                  action="{{ route('admin.sistemas-operacionais.desativar', $so) }}"
+                                  action="{{ route('admin.sistemas-operacionais.desativar', $so->id) }}"
                                   class="d-inline">
                                 @csrf @method('PATCH')
                                 <button class="btn btn-warning btn-sm"
@@ -55,7 +55,7 @@
                             </form>
                             @else
                             <form method="POST"
-                                  action="{{ route('admin.sistemas-operacionais.ativar', $so) }}"
+                                  action="{{ route('admin.sistemas-operacionais.ativar', $so->id) }}"
                                   class="d-inline">
                                 @csrf @method('PATCH')
                                 <button class="btn btn-success btn-sm"
@@ -67,7 +67,7 @@
                             @endif
 
                             <form method="POST"
-                                  action="{{ route('admin.sistemas-operacionais.destroy', $so) }}"
+                                  action="{{ route('admin.sistemas-operacionais.destroy', $so->id) }}"
                                   class="d-inline">
                                 @csrf @method('DELETE')
                                 <button class="btn btn-danger btn-sm"

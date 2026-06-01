@@ -9,7 +9,7 @@
     </a>
 </div>
 
-<form method="POST" action="{{ route('aplicacoes.update', $aplicacao) }}">
+<form method="POST" action="{{ route('aplicacoes.update', $aplicacao->id) }}">
 @csrf @method('PUT')
 
     {{-- ── Dados básicos ──────────────────────────────────────────────── --}}

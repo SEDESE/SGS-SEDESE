@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlteracaoController;
 use App\Http\Controllers\AplicacaoController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -19,8 +20,17 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Inventário de aplicações — visível para todos os autenticados (RF-04)
-    Route::resource('aplicacoes', AplicacaoController::class);
+    // Inventário de aplicações — RF-04
+    Route::resource('aplicacoes', AplicacaoController::class)
+        ->parameters(['aplicacoes' => 'aplicacao']); // Str::singular('aplicacoes') geraria 'aplicaco' em inglês
+
+    // Histórico de alterações — RF-05
+    Route::prefix('historico')->name('historico.')->group(function () {
+        Route::get('/',                          [AlteracaoController::class, 'index'])->name('index');
+        Route::get('/{alteracao}/edit',          [AlteracaoController::class, 'edit'])->name('edit');
+        Route::put('/{alteracao}',               [AlteracaoController::class, 'update'])->name('update');
+        Route::delete('/{alteracao}',            [AlteracaoController::class, 'destroy'])->name('destroy');
+    });
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -28,7 +38,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('usuarios/{usuario}/desativar', [UsuarioController::class, 'desativar'])
         ->name('usuarios.desativar');
 
-    Route::resource('sistemas-operacionais', SistemaOperacionalController::class);
+    Route::resource('sistemas-operacionais', SistemaOperacionalController::class)
+        ->parameters(['sistemas-operacionais' => 'sistema_operacional']); // Str::singular geraria 'sistemas_operacionai'
     Route::patch('sistemas-operacionais/{sistema_operacional}/desativar', [SistemaOperacionalController::class, 'desativar'])
         ->name('sistemas-operacionais.desativar');
     Route::patch('sistemas-operacionais/{sistema_operacional}/ativar', [SistemaOperacionalController::class, 'ativar'])

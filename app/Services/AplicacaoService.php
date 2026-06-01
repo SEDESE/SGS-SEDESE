@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Enums\Ambiente;
-use App\Models\Alteracao;
 use App\Models\Aplicacao;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Crypt;
@@ -16,6 +15,28 @@ class AplicacaoService
 
     private const CAMPOS_SENHA = ['senha_os', 'senha_site', 'senha_db'];
 
+    /** Labels legíveis para a descrição de histórico campo a campo. */
+    private const LABELS_CAMPOS = [
+        'so_id'                 => 'Sistema Operacional',
+        'nome_aplicacao'        => 'Nome',
+        'ip'                    => 'IP',
+        'ambiente'              => 'Ambiente',
+        'url'                   => 'URL',
+        'usuario_os'            => 'Usuário SO',
+        'senha_os'              => 'Senha SO',
+        'usuario_site'          => 'Usuário Aplicação',
+        'senha_site'            => 'Senha Aplicação',
+        'database'              => 'Banco de Dados',
+        'usuario_db'            => 'Usuário Banco',
+        'senha_db'              => 'Senha Banco',
+        'caminho'               => 'Caminho',
+        'git'                   => 'Repositório Git',
+        'empresa_desenvolvedor' => 'Empresa/Desenvolvedor',
+        'responsavel_diretor'   => 'Responsável/Diretor',
+    ];
+
+    public function __construct(private AlteracaoService $alteracaoService) {}
+
     // ─── Leitura ────────────────────────────────────────────────────────────
 
     public function listar(array $filtros = []): LengthAwarePaginator
@@ -25,18 +46,18 @@ class AplicacaoService
         if (!empty($filtros['busca'])) {
             $busca = $filtros['busca'];
             $query->where(function ($q) use ($busca) {
-                $q->where('nome_aplicacao',       'like', "%{$busca}%")
-                  ->orWhere('ip',                 'like', "%{$busca}%")
-                  ->orWhere('url',                'like', "%{$busca}%")
-                  ->orWhere('ambiente',            'like', "%{$busca}%")
-                  ->orWhere('usuario_os',          'like', "%{$busca}%")
-                  ->orWhere('usuario_site',        'like', "%{$busca}%")
-                  ->orWhere('database',            'like', "%{$busca}%")
-                  ->orWhere('usuario_db',          'like', "%{$busca}%")
-                  ->orWhere('caminho',             'like', "%{$busca}%")
-                  ->orWhere('git',                 'like', "%{$busca}%")
+                $q->where('nome_aplicacao',        'like', "%{$busca}%")
+                  ->orWhere('ip',                  'like', "%{$busca}%")
+                  ->orWhere('url',                 'like', "%{$busca}%")
+                  ->orWhere('ambiente',             'like', "%{$busca}%")
+                  ->orWhere('usuario_os',           'like', "%{$busca}%")
+                  ->orWhere('usuario_site',         'like', "%{$busca}%")
+                  ->orWhere('database',             'like', "%{$busca}%")
+                  ->orWhere('usuario_db',           'like', "%{$busca}%")
+                  ->orWhere('caminho',              'like', "%{$busca}%")
+                  ->orWhere('git',                  'like', "%{$busca}%")
                   ->orWhere('empresa_desenvolvedor','like', "%{$busca}%")
-                  ->orWhere('responsavel_diretor', 'like', "%{$busca}%")
+                  ->orWhere('responsavel_diretor',  'like', "%{$busca}%")
                   ->orWhereHas('sistemaOperacional', fn ($sq) =>
                       $sq->where('nome', 'like', "%{$busca}%")
                   );
@@ -59,44 +80,47 @@ class AplicacaoService
     {
         $aplicacao = Aplicacao::create($this->prepararDados($dados));
 
-        $this->registrarHistorico($aplicacao, 'Aplicação criada.');
+        $this->alteracaoService->registrar(
+            $aplicacao,
+            "Aplicação \"{$aplicacao->nome_aplicacao}\" criada."
+        );
 
         return $aplicacao;
     }
 
     public function atualizar(Aplicacao $aplicacao, array $dados): void
     {
-        // Identifica senhas que o usuário forneceu explicitamente
-        $senhasAlteradas = array_filter(
+        // Senhas fornecidas explicitamente (track antes do fill)
+        $senhasAlteradas = array_values(array_filter(
             self::CAMPOS_SENHA,
             fn ($campo) => !empty($dados[$campo])
-        );
+        ));
 
         $dadosPreparados = $this->prepararDados($dados);
         $aplicacao->fill($dadosPreparados);
 
-        // Campos não-senha marcados como dirty antes do save
         $dirty = array_diff(array_keys($aplicacao->getDirty()), self::CAMPOS_SENHA);
-        $todosAlterados = array_unique(array_merge($dirty, array_values($senhasAlteradas)));
+        $todosAlterados = array_unique(array_merge($dirty, $senhasAlteradas));
 
         $aplicacao->save();
 
         $descricao = empty($todosAlterados)
-            ? 'Aplicação editada sem alterações detectadas.'
-            : 'Campos alterados: ' . implode(', ', array_map(
-                fn ($c) => str_replace('_', ' ', $c),
+            ? "Aplicação \"{$aplicacao->nome_aplicacao}\" editada sem alterações detectadas."
+            : "Campos alterados em \"{$aplicacao->nome_aplicacao}\": " . implode(', ', array_map(
+                fn ($c) => self::LABELS_CAMPOS[$c] ?? str_replace('_', ' ', $c),
                 $todosAlterados
               )) . '.';
 
-        $this->registrarHistorico($aplicacao, $descricao);
+        $this->alteracaoService->registrar($aplicacao, $descricao);
     }
 
     public function excluir(Aplicacao $aplicacao): void
     {
-        $nome = $aplicacao->nome_aplicacao;
-
-        // Registra antes de deletar para manter aplicacao_id = null via nullOnDelete
-        $this->registrarHistorico($aplicacao, "Aplicação \"{$nome}\" excluída.");
+        // Registra antes de deletar — aplicacao_id vira null via nullOnDelete
+        $this->alteracaoService->registrar(
+            $aplicacao,
+            "Aplicação \"{$aplicacao->nome_aplicacao}\" excluída."
+        );
 
         $aplicacao->delete();
     }
@@ -123,7 +147,6 @@ class AplicacaoService
             'responsavel_diretor'   => $dados['responsavel_diretor']   ?: null,
         ];
 
-        // Criptografa apenas senhas que foram fornecidas — RNF-01.1
         foreach (self::CAMPOS_SENHA as $campo) {
             if (!empty($dados[$campo])) {
                 $prepared[$campo] = Crypt::encryptString($dados[$campo]);
@@ -131,14 +154,5 @@ class AplicacaoService
         }
 
         return $prepared;
-    }
-
-    private function registrarHistorico(Aplicacao $aplicacao, string $descricao): void
-    {
-        Alteracao::create([
-            'user_id'      => auth()->id(),
-            'aplicacao_id' => $aplicacao->id,
-            'descricao'    => $descricao,
-        ]);
     }
 }

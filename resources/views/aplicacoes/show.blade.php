@@ -5,7 +5,7 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h4>{{ $aplicacao->nome_aplicacao }}</h4>
     <div class="d-flex gap-2">
-        <a href="{{ route('aplicacoes.edit', $aplicacao) }}" class="btn btn-primary btn-sm">
+        <a href="{{ route('aplicacoes.edit', $aplicacao->id) }}" class="btn btn-primary btn-sm">
             <i class="fas fa-edit me-1" aria-hidden="true"></i> Editar
         </a>
         <a href="{{ route('aplicacoes.index') }}" class="btn btn-secondary btn-sm">

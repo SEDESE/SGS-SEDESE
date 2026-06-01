@@ -55,7 +55,7 @@ class SistemaOperacionalService
     {
         if ($so->aplicacoes()->exists()) {
             throw new \RuntimeException(
-                'Não é possível excluir um SO com aplicações vinculadas. Desative-o em vez disso.'
+                'Este SO possui aplicações vinculadas e não pode ser excluído. Remova o vínculo nas aplicações ou mantenha-o desativado.'
             );
         }
 

@@ -62,6 +62,12 @@
                         <i class="fas fa-server me-2" aria-hidden="true"></i> Aplicações
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('historico.*') ? 'active' : '' }}"
+                       href="{{ route('historico.index') }}">
+                        <i class="fas fa-history me-2" aria-hidden="true"></i> Histórico
+                    </a>
+                </li>
                 @if(auth()->user()->isAdmin())
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.usuarios.*') ? 'active' : '' }}"
