@@ -17,7 +17,7 @@
         />
     </div>
 
-    {{-- Stack tecnológica das aplicações --}}
+    {{-- Stack tecnológica das aplicações--}}
     <div class="col-sm-6 col-xl-3">
         <x-small-box color="bg-success" icon="fas fa-code" label="Stack das Aplicações">
             @if($porStack->isEmpty())
