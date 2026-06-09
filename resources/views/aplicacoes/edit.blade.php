@@ -118,7 +118,7 @@
                         </button>
                     </div>
                     <small class="text-muted">
-                        Máx. 20 chars. Deixe vazio para manter a senha atual. Armazenada criptografada.
+                        Deixe vazio para manter a senha atual. Armazenada criptografada.
                     </small>
                     @error('senha_os')
                         <div class="text-danger small">{{ $message }}</div>
@@ -158,7 +158,7 @@
                         </button>
                     </div>
                     <small class="text-muted">
-                        Máx. 20 chars. Deixe vazio para manter a senha atual. Armazenada criptografada.
+                        Deixe vazio para manter a senha atual. Armazenada criptografada.
                     </small>
                     @error('senha_site')
                         <div class="text-danger small">{{ $message }}</div>
@@ -208,7 +208,7 @@
                         </button>
                     </div>
                     <small class="text-muted">
-                        Máx. 20 chars. Deixe vazio para manter a senha atual. Armazenada criptografada.
+                        Deixe vazio para manter a senha atual. Armazenada criptografada.
                     </small>
                     @error('senha_db')
                         <div class="text-danger small">{{ $message }}</div>
