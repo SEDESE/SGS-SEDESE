@@ -115,7 +115,7 @@
                             <i class="fas fa-eye" aria-hidden="true"></i>
                         </button>
                     </div>
-                    <small class="text-muted">Máx. 20 caracteres. Armazenada criptografada.</small>
+                    <small class="text-muted">Armazenada criptografada.</small>
                     @error('senha_os')
                         <div class="text-danger small">{{ $message }}</div>
                     @enderror
@@ -152,7 +152,7 @@
                             <i class="fas fa-eye" aria-hidden="true"></i>
                         </button>
                     </div>
-                    <small class="text-muted">Máx. 20 caracteres. Armazenada criptografada.</small>
+                    <small class="text-muted">Armazenada criptografada.</small>
                     @error('senha_site')
                         <div class="text-danger small">{{ $message }}</div>
                     @enderror
@@ -199,7 +199,7 @@
                             <i class="fas fa-eye" aria-hidden="true"></i>
                         </button>
                     </div>
-                    <small class="text-muted">Máx. 20 caracteres. Armazenada criptografada.</small>
+                    <small class="text-muted">Armazenada criptografada.</small>
                     @error('senha_db')
                         <div class="text-danger small">{{ $message }}</div>
                     @enderror

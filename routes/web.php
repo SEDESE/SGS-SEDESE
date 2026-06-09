@@ -8,9 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\SistemaOperacionalController;
 use App\Http\Controllers\Admin\UsuarioController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', fn () => redirect()->route('login'));
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])

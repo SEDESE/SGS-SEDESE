@@ -19,7 +19,7 @@
     <div class="ms-auto">
         <div class="dropdown">
             <button class="btn btn-link text-white dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown">
-                <img src="{{ asset('images/user.png') }}" alt="Avatar" class="user-avatar" aria-hidden="true">
+                {{-- <img src="{{ asset('images/user.png') }}" alt="Avatar" class="user-avatar" aria-hidden="true"> --}}
                 {{ auth()->user()->name }}
                 <small class="text-muted">({{ auth()->user()->role->label() }})</small>
             </button>
