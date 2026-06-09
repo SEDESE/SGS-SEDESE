@@ -14,11 +14,12 @@
     <button class="btn btn-link text-white" id="sidebarToggle" aria-label="Toggle sidebar">
         <i class="fas fa-bars" aria-hidden="true"></i>
     </button>
-    <span class="navbar-brand ms-2">SGS</span>
+    <img src="{{ asset('images/logo.png') }}" alt="SGS" class="navbar-logo ms-2">
 
     <div class="ms-auto">
         <div class="dropdown">
-            <button class="btn btn-link text-white dropdown-toggle" data-bs-toggle="dropdown">
+            <button class="btn btn-link text-white dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown">
+                <img src="{{ asset('images/user.png') }}" alt="Avatar" class="user-avatar" aria-hidden="true">
                 {{ auth()->user()->name }}
                 <small class="text-muted">({{ auth()->user()->role->label() }})</small>
             </button>
@@ -46,40 +47,40 @@
     {{-- Sidebar --}}
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-brand p-3 text-center">
-            <strong>SGS</strong><br>
-            <small class="text-muted">{{ auth()->user()->role->label() }}</small>
+            <img src="{{ asset('images/logo.png') }}" alt="SGS" class="sidebar-logo">
+            <small class="text-muted d-block mt-1 sidebar-role">{{ auth()->user()->role->label() }}</small>
         </div>
         <nav class="sidebar-nav">
             <ul class="nav flex-column px-2">
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
                        href="{{ route('dashboard') }}">
-                        <i class="fas fa-tachometer-alt me-2" aria-hidden="true"></i> Dashboard
+                        <i class="fas fa-tachometer-alt me-2" aria-hidden="true"></i><span>Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('aplicacoes.*') ? 'active' : '' }}"
                        href="{{ route('aplicacoes.index') }}">
-                        <i class="fas fa-server me-2" aria-hidden="true"></i> Aplicações
+                        <i class="fas fa-server me-2" aria-hidden="true"></i><span>Aplicações</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('historico.*') ? 'active' : '' }}"
                        href="{{ route('historico.index') }}">
-                        <i class="fas fa-history me-2" aria-hidden="true"></i> Histórico
+                        <i class="fas fa-history me-2" aria-hidden="true"></i><span>Histórico</span>
                     </a>
                 </li>
                 @if(auth()->user()->isAdmin())
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.usuarios.*') ? 'active' : '' }}"
                        href="{{ route('admin.usuarios.index') }}">
-                        <i class="fas fa-users me-2" aria-hidden="true"></i> Usuários
+                        <i class="fas fa-users me-2" aria-hidden="true"></i><span>Usuários</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.sistemas-operacionais.*') ? 'active' : '' }}"
                        href="{{ route('admin.sistemas-operacionais.index') }}">
-                        <i class="fas fa-desktop me-2" aria-hidden="true"></i> Sist. Operacionais
+                        <i class="fas fa-desktop me-2" aria-hidden="true"></i><span>Sist. Operacionais</span>
                     </a>
                 </li>
                 @endif
