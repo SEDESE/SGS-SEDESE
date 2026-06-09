@@ -28,6 +28,9 @@ class AlteracaoController extends Controller
             abort(403, 'Você não tem permissão para editar este registro.');
         }
 
+        // Eager load para evitar lazy loads em $alteracao->usuario e $alteracao->aplicacao na view — RNF-04.3
+        $alteracao->loadMissing(['usuario', 'aplicacao']);
+
         return view('alteracoes.edit', compact('alteracao'));
     }
 

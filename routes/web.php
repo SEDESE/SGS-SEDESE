@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AlteracaoController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AplicacaoController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -11,9 +12,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -22,7 +23,7 @@ Route::middleware('auth')->group(function () {
 
     // Inventário de aplicações — RF-04
     Route::resource('aplicacoes', AplicacaoController::class)
-        ->parameters(['aplicacoes' => 'aplicacao']); // Str::singular('aplicacoes') geraria 'aplicaco' em inglês
+        ->parameters(['aplicacoes' => 'aplicacao']);
 
     // Histórico de alterações — RF-05
     Route::prefix('historico')->name('historico.')->group(function () {
@@ -39,7 +40,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         ->name('usuarios.desativar');
 
     Route::resource('sistemas-operacionais', SistemaOperacionalController::class)
-        ->parameters(['sistemas-operacionais' => 'sistema_operacional']); // Str::singular geraria 'sistemas_operacionai'
+        ->parameters(['sistemas-operacionais' => 'sistema_operacional']);
     Route::patch('sistemas-operacionais/{sistema_operacional}/desativar', [SistemaOperacionalController::class, 'desativar'])
         ->name('sistemas-operacionais.desativar');
     Route::patch('sistemas-operacionais/{sistema_operacional}/ativar', [SistemaOperacionalController::class, 'ativar'])
