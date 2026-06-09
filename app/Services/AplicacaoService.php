@@ -130,21 +130,21 @@ class AplicacaoService
     private function prepararDados(array $dados): array
     {
         $prepared = [
-            'so_id'                 => $dados['so_id'] ?: null,
+            'so_id'                 => ($dados['so_id'] ?? null) ?: null,
             'nome_aplicacao'        => $dados['nome_aplicacao'],
-            'ip'                    => $dados['ip']       ?: null,
-            'ambiente'              => !empty($dados['ambiente'])
+            'ip'                    => ($dados['ip'] ?? null) ?: null,
+            'ambiente'              => !empty($dados['ambiente'] ?? null)
                                           ? Ambiente::from($dados['ambiente'])
                                           : null,
-            'url'                   => $dados['url']      ?: null,
-            'usuario_os'            => $dados['usuario_os']  ?: null,
-            'usuario_site'          => $dados['usuario_site'] ?: null,
-            'database'              => $dados['database']  ?: null,
-            'usuario_db'            => $dados['usuario_db'] ?: null,
-            'caminho'               => $dados['caminho']   ?: null,
-            'git'                   => $dados['git']       ?: null,
-            'empresa_desenvolvedor' => $dados['empresa_desenvolvedor'] ?: null,
-            'responsavel_diretor'   => $dados['responsavel_diretor']   ?: null,
+            'url'                   => ($dados['url'] ?? null) ?: null,
+            'usuario_os'            => ($dados['usuario_os'] ?? null) ?: null,
+            'usuario_site'          => ($dados['usuario_site'] ?? null) ?: null,
+            'database'              => ($dados['database'] ?? null) ?: null,
+            'usuario_db'            => ($dados['usuario_db'] ?? null) ?: null,
+            'caminho'               => ($dados['caminho'] ?? null) ?: null,
+            'git'                   => ($dados['git'] ?? null) ?: null,
+            'empresa_desenvolvedor' => ($dados['empresa_desenvolvedor'] ?? null) ?: null,
+            'responsavel_diretor'   => ($dados['responsavel_diretor'] ?? null) ?: null,
         ];
 
         foreach (self::CAMPOS_SENHA as $campo) {

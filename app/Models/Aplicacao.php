@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Ambiente;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\Crypt;
 
 class Aplicacao extends Model
 {
+    use HasFactory;
+
     protected $table = 'aplicacoes';
 
     protected $fillable = [

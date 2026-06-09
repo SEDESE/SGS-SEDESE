@@ -48,7 +48,7 @@
                             $direction = $filtros['direction']  ?? 'asc';
                             $busca     = $filtros['busca']      ?? '';
 
-                            function sortLink(string $col, string $label, string $sort, string $direction, string $busca): string {
+                            $sortLink = function(string $col, string $label, string $sort, string $direction, string $busca): string {
                                 $nextDir = ($sort === $col && $direction === 'asc') ? 'desc' : 'asc';
                                 $icon = $sort === $col
                                     ? ($direction === 'asc' ? ' <i class="fas fa-sort-up"></i>' : ' <i class="fas fa-sort-down"></i>')
@@ -57,10 +57,10 @@
                                 return "<a href=\"?" . $params . "\" class=\"text-decoration-none text-dark\">{$label}{$icon}</a>";
                             }
                         @endphp
-                        <th>{!! sortLink('nome_aplicacao', 'Nome', $sort, $direction, $busca) !!}</th>
-                        <th>{!! sortLink('ip',             'IP',   $sort, $direction, $busca) !!}</th>
-                        <th>{!! sortLink('ambiente',       'Ambiente', $sort, $direction, $busca) !!}</th>
-                        <th>{!! sortLink('url',            'URL',  $sort, $direction, $busca) !!}</th>
+                        <th>{!! $sortLink('nome_aplicacao', 'Nome', $sort, $direction, $busca) !!}</th>
+                        <th>{!! $sortLink('ip',             'IP',   $sort, $direction, $busca) !!}</th>
+                        <th>{!! $sortLink('ambiente',       'Ambiente', $sort, $direction, $busca) !!}</th>
+                        <th>{!! $sortLink('url',            'URL',  $sort, $direction, $busca) !!}</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
