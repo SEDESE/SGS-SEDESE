@@ -131,6 +131,18 @@
                 <small class="text-muted d-block">Responsável / Diretor</small>
                 <span>{{ $aplicacao->responsavel_diretor ?? '—' }}</span>
             </div>
+            <div class="col-12">
+                <small class="text-muted d-block">Stack Tecnológica</small>
+                @if($aplicacao->tecnologias->isEmpty())
+                    <span class="text-muted">—</span>
+                @else
+                    <div class="d-flex flex-wrap gap-1 mt-1">
+                        @foreach($aplicacao->tecnologias as $tech)
+                            <span class="badge bg-secondary">{{ $tech->nome }}</span>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
             <div class="col-md-6">
                 <small class="text-muted d-block">Cadastrado em</small>
                 <span>{{ $aplicacao->created_at->format('d/m/Y H:i') }}</span>

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\Ambiente;
 use App\Models\Aplicacao;
+use App\Models\Tecnologia;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Crypt;
 
@@ -33,6 +34,7 @@ class AplicacaoService
         'git'                   => 'Repositório Git',
         'empresa_desenvolvedor' => 'Empresa/Desenvolvedor',
         'responsavel_diretor'   => 'Responsável/Diretor',
+        'tecnologias'           => 'Stack',
     ];
 
     public function __construct(private AlteracaoService $alteracaoService) {}
@@ -41,7 +43,7 @@ class AplicacaoService
 
     public function listar(array $filtros = []): LengthAwarePaginator
     {
-        $query = Aplicacao::with('sistemaOperacional');
+        $query = Aplicacao::with(['sistemaOperacional', 'tecnologias']);
 
         if (!empty($filtros['busca'])) {
             $busca = $filtros['busca'];
@@ -80,6 +82,8 @@ class AplicacaoService
     {
         $aplicacao = Aplicacao::create($this->prepararDados($dados));
 
+        $this->sincronizarTecnologias($aplicacao, $dados['tecnologias'] ?? []);
+
         $this->alteracaoService->registrar(
             $aplicacao,
             "Aplicação \"{$aplicacao->nome_aplicacao}\" criada."
@@ -96,13 +100,22 @@ class AplicacaoService
             fn ($campo) => !empty($dados[$campo])
         ));
 
+        // Detecta mudança na stack antes de sincronizar
+        $techAntes  = $aplicacao->tecnologias->pluck('nome')->map(fn ($n) => strtolower($n))->sort()->values()->toArray();
+        $techDepois = collect($dados['tecnologias'] ?? [])->map(fn ($n) => strtolower(trim($n)))->filter()->sort()->values()->toArray();
+        $stackMudou = $techAntes !== $techDepois;
+
         $dadosPreparados = $this->prepararDados($dados);
         $aplicacao->fill($dadosPreparados);
 
         $dirty = array_diff(array_keys($aplicacao->getDirty()), self::CAMPOS_SENHA);
         $todosAlterados = array_unique(array_merge($dirty, $senhasAlteradas));
+        if ($stackMudou) {
+            $todosAlterados[] = 'tecnologias';
+        }
 
         $aplicacao->save();
+        $this->sincronizarTecnologias($aplicacao, $dados['tecnologias'] ?? []);
 
         $descricao = empty($todosAlterados)
             ? "Aplicação \"{$aplicacao->nome_aplicacao}\" editada sem alterações detectadas."
@@ -126,6 +139,18 @@ class AplicacaoService
     }
 
     // ─── Privados ───────────────────────────────────────────────────────────
+
+    private function sincronizarTecnologias(Aplicacao $aplicacao, array $nomes): void
+    {
+        $ids = collect($nomes)
+            ->map(fn ($nome) => trim($nome))
+            ->filter()
+            ->unique()
+            ->map(fn ($nome) => Tecnologia::firstOrCreate(['nome' => $nome])->id)
+            ->toArray();
+
+        $aplicacao->tecnologias()->sync($ids);
+    }
 
     private function prepararDados(array $dados): array
     {

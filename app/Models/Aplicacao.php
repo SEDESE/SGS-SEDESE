@@ -6,6 +6,7 @@ use App\Enums\Ambiente;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Crypt;
 
@@ -46,6 +47,12 @@ class Aplicacao extends Model
     public function sistemaOperacional(): BelongsTo
     {
         return $this->belongsTo(SistemaOperacional::class, 'so_id');
+    }
+
+    public function tecnologias(): BelongsToMany
+    {
+        return $this->belongsToMany(Tecnologia::class, 'aplicacao_tecnologia')
+                    ->orderBy('nome');
     }
 
     public function alteracoes(): HasMany

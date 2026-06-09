@@ -22,16 +22,18 @@ class StoreAplicacaoRequest extends FormRequest
             'ambiente'              => ['nullable', new Enum(Ambiente::class)],
             'url'                   => 'nullable|string|max:255',
             'usuario_os'            => 'nullable|string|max:255',
-            'senha_os'              => 'nullable|string|max:20',
+            'senha_os'              => 'nullable|string',
             'usuario_site'          => 'nullable|string|max:255',
-            'senha_site'            => 'nullable|string|max:20',
+            'senha_site'            => 'nullable|string',
             'database'              => 'nullable|string|max:255',
             'usuario_db'            => 'nullable|string|max:255',
-            'senha_db'              => 'nullable|string|max:20',
+            'senha_db'              => 'nullable|string',
             'caminho'               => 'nullable|string|max:500',
             'git'                   => 'nullable|string|max:500',
             'empresa_desenvolvedor' => 'nullable|string|max:255',
             'responsavel_diretor'   => 'nullable|string|max:255',
+            'tecnologias'           => 'nullable|array',
+            'tecnologias.*'         => 'string|max:100',
         ];
     }
 }

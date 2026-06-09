@@ -79,18 +79,6 @@ class AplicacaoTest extends TestCase
         $this->assertDatabaseCount('aplicacoes', 0);
     }
 
-    public function test_password_fields_are_limited_to_20_characters(): void
-    {
-        $admin = User::factory()->admin()->create();
-
-        $this->actingAs($admin)
-             ->post(route('aplicacoes.store'), [
-                 'nome_aplicacao' => 'App Teste',
-                 'senha_os'       => str_repeat('x', 21),
-             ])
-             ->assertSessionHasErrors('senha_os');
-    }
-
     // ─── Edição ────────────────────────────────────────────────────────────
 
     public function test_admin_can_edit_application(): void

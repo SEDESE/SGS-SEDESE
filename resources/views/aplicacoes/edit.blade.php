@@ -269,6 +269,36 @@
         </div>
     </div>
 
+
+    {{-- ── Stack Tecnológica ──────────────────────────────────────────────── --}}
+    <div class="card mb-3">
+        <div class="card-header"><strong>Stack Tecnológica</strong></div>
+        <div class="card-body">
+            <div class="d-flex gap-2 mb-2">
+                <input type="text"
+                       id="stack-nova"
+                       class="form-control"
+                       placeholder="Ex: Laravel, React, MySQL, Docker..."
+                       autocomplete="off">
+                <button type="button" id="stack-adicionar" class="btn btn-secondary">
+                    <i class="fas fa-plus" aria-hidden="true"></i> Adicionar
+                </button>
+            </div>
+            <div id="stack-tags" class="d-flex flex-wrap gap-2 mb-1">
+                @foreach($aplicacao->tecnologias as $tech)
+                <span class="badge bg-secondary d-inline-flex align-items-center gap-1 px-2 py-1 stack-tag" style="font-size:.85rem">
+                    {{ $tech->nome }}
+                    <input type="hidden" name="tecnologias[]" value="{{ $tech->nome }}">
+                    <button type="button" class="btn-close btn-close-white ms-1" style="font-size:.55rem" aria-label="Remover {{ $tech->nome }}"></button>
+                </span>
+                @endforeach
+            </div>
+            <small class="text-muted">
+                Pressione Enter ou clique em Adicionar. Clique no × para remover.
+            </small>
+        </div>
+    </div>
+
     <div class="d-flex gap-2 mb-4">
         <button type="submit" class="btn btn-primary">
             <i class="fas fa-save me-1" aria-hidden="true"></i> Salvar Alterações
@@ -292,5 +322,43 @@ document.querySelectorAll('.toggle-pwd').forEach(function (btn) {
         }
     });
 });
+</script>
+
+<script>
+// Stack tecnológica — Vanilla JS
+(function () {
+    var input     = document.getElementById('stack-nova');
+    var btn       = document.getElementById('stack-adicionar');
+    var container = document.getElementById('stack-tags');
+
+    function addTag(nome) {
+        nome = nome.trim();
+        if (!nome) return;
+        var existing = Array.from(container.querySelectorAll('input[name="tecnologias[]"]'))
+            .map(function (i) { return i.value.toLowerCase(); });
+        if (existing.indexOf(nome.toLowerCase()) !== -1) return;
+
+        var tag = document.createElement('span');
+        tag.className = 'badge bg-secondary d-inline-flex align-items-center gap-1 px-2 py-1 stack-tag';
+        tag.style.fontSize = '.85rem';
+        tag.innerHTML = nome.replace(/</g,'&lt;').replace(/>/g,'&gt;') +
+            '<input type="hidden" name="tecnologias[]" value="' + nome.replace(/"/g,'&quot;') + '">' +
+            '<button type="button" class="btn-close btn-close-white ms-1" style="font-size:.55rem" aria-label="Remover"></button>';
+        tag.querySelector('.btn-close').addEventListener('click', function () { tag.remove(); });
+        container.appendChild(tag);
+        input.value = '';
+        input.focus();
+    }
+
+    btn.addEventListener('click', function () { addTag(input.value); });
+    input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') { e.preventDefault(); addTag(this.value); }
+    });
+
+    // Botões de fechar nos tags pré-preenchidos (edição)
+    container.querySelectorAll('.btn-close').forEach(function (b) {
+        b.addEventListener('click', function () { b.closest('.stack-tag').remove(); });
+    });
+}());
 </script>
 @endsection

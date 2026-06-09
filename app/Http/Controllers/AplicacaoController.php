@@ -42,8 +42,8 @@ class AplicacaoController extends Controller
 
     public function show(Aplicacao $aplicacao): View
     {
-        // Eager load para evitar lazy load em $aplicacao->sistemaOperacional na view — RNF-04.3
-        $aplicacao->loadMissing('sistemaOperacional');
+        // Eager load para evitar lazy loads na view — RNF-04.3
+        $aplicacao->loadMissing(['sistemaOperacional', 'tecnologias']);
         $sistemas = $this->soService->ativos();
         return view('aplicacoes.show', compact('aplicacao', 'sistemas'));
     }

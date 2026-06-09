@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Alteracao;
 use App\Models\Aplicacao;
 use App\Models\SistemaOperacional;
-use App\Models\User;
+use App\Models\Tecnologia;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
@@ -15,8 +15,13 @@ class DashboardController extends Controller
         // RF-03.2 — Total de aplicações (query direta, sem colecão em memória)
         $totalAplicacoes = Aplicacao::count();
 
-        // RF-03.3 — Usuários ativos
-        $totalUsuarios = User::where('ativo', true)->count();
+        // Quantitativo por stack tecnológica via LEFT JOIN
+        $porStack = Tecnologia::selectRaw('tecnologias.nome, COUNT(aplicacao_tecnologia.aplicacao_id) as total')
+            ->leftJoin('aplicacao_tecnologia', 'aplicacao_tecnologia.tecnologia_id', '=', 'tecnologias.id')
+            ->groupBy('tecnologias.id', 'tecnologias.nome')
+            ->orderByDesc('total')
+            ->orderBy('nome')
+            ->get();
 
         // RF-03.4 — Distribuição por ambiente via GROUP BY no banco
         $resultAmbiente = Aplicacao::selectRaw(
@@ -52,7 +57,7 @@ class DashboardController extends Controller
 
         return view('dashboard', compact(
             'totalAplicacoes',
-            'totalUsuarios',
+            'porStack',
             'porAmbiente',
             'porSO',
             'indefinidoCount',

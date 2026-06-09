@@ -17,15 +17,24 @@
         />
     </div>
 
-    {{-- RF-03.3 Usuários Registrados --}}
+    {{-- Stack tecnológica das aplicações --}}
     <div class="col-sm-6 col-xl-3">
-        <x-small-box
-            color="bg-success"
-            icon="fas fa-users"
-            label="Usuários Registrados"
-            :value="$totalUsuarios"
-            :link="auth()->user()->isAdmin() ? route('admin.usuarios.index') : null"
-        />
+        <x-small-box color="bg-success" icon="fas fa-code" label="Stack das Aplicações">
+            @if($porStack->isEmpty())
+                <p class="mb-1" style="color:rgba(255,255,255,.8);font-size:.85rem">
+                    Nenhuma stack cadastrada ainda.
+                </p>
+            @else
+                <ul>
+                    @foreach($porStack as $tech)
+                    <li>
+                        <span>{{ $tech->nome }}</span>
+                        <strong>{{ $tech->total }}</strong>
+                    </li>
+                    @endforeach
+                </ul>
+            @endif
+        </x-small-box>
     </div>
 
     {{-- RF-03.4 Status por Ambiente --}}
