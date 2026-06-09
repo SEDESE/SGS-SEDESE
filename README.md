@@ -49,3 +49,9 @@ php artisan key:generate && php artisan db:seed --class=YourTableSeeder
 ```bash
 npm run dev && php artisan serve
 ```
+##
+### Comandos para rodar testes basicos CRUD/Auth
+
+```bash
+php artisan view:clear && php artisan test
+```
