@@ -58,13 +58,13 @@
                 <i class="fas fa-sign-in-alt me-2" aria-hidden="true"></i> Entrar
             </button>
 
-            @if(Route::has('password.request'))
+            {{-- @if(Route::has('password.request'))
                 <div class="text-center mt-3">
                     <a href="{{ route('password.request') }}" class="text-muted small">
                         Esqueci minha senha
                     </a>
                 </div>
-            @endif
+            @endif --}}
         </form>
     </div>
 </div>

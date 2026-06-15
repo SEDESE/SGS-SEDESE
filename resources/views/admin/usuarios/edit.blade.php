@@ -44,6 +44,37 @@
                 @enderror
             </div>
 
+
+            {{-- ── Redefinir Senha ──────────────────────────────────────────── --}}
+            <hr class="my-4">
+            <h6 class="text-muted mb-3">
+                <i class="fas fa-key me-1" aria-hidden="true"></i>
+                Redefinir Senha
+            </h6>
+            <p class="text-muted small">Deixe em branco para manter a senha atual.</p>
+
+            <div class="mb-3">
+                <label class="form-label" for="nova_senha">Nova Senha</label>
+                <input type="password"
+                       id="nova_senha"
+                       name="nova_senha"
+                       class="form-control @error('nova_senha') is-invalid @enderror"
+                       autocomplete="new-password">
+                <small class="text-muted">Mínimo 8 caracteres, letras maiúsculas, minúsculas e números.</small>
+                @error('nova_senha')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="nova_senha_confirmation">Confirmar Nova Senha</label>
+                <input type="password"
+                       id="nova_senha_confirmation"
+                       name="nova_senha_confirmation"
+                       class="form-control"
+                       autocomplete="new-password">
+            </div>
+
             <div class="d-flex gap-2">
                 <button type="submit" class="btn btn-primary">Salvar</button>
                 <a href="{{ route('admin.usuarios.index') }}" class="btn btn-secondary">Cancelar</a>

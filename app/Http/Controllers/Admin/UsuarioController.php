@@ -42,7 +42,14 @@ class UsuarioController extends Controller
 
     public function update(UpdateUsuarioRequest $request, User $usuario): RedirectResponse
     {
-        $this->service->atualizar($usuario, $request->validated());
+        $dados = $request->validated();
+
+        $this->service->atualizar($usuario, $dados);
+
+        if (!empty($dados['nova_senha'])) {
+            $this->service->alterarSenha($usuario, $dados['nova_senha']);
+        }
+
         return redirect()->route('admin.usuarios.index')
             ->with('success', 'Usuário atualizado com sucesso.');
     }
