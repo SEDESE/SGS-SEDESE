@@ -11,6 +11,7 @@
 <div class="login-wrapper">
     <div class="login-card">
         <div class="login-logo">
+            <img src="{{ asset('images/logo.png') }}" alt="SGS" style="width: 120px; height: 120px;"class="navbar-logo ms-2">
             <strong>SGS</strong>
             <small>Sistema de Gestão de Sistemas</small>
         </div>
