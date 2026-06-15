@@ -48,7 +48,7 @@
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-brand p-3 text-center">
             <img src="{{ asset('images/user.png') }}" alt="Avatar" class="sidebar-logo">
-            <small class="text-muted d-block mt-1 sidebar-role">{{ auth()->user()->role->label() }}</small>
+            <small class="text-muted mt-1 sidebar-role">{{ auth()->user()->role->label() }}</small>
         </div>
         <nav class="sidebar-nav">
             <ul class="nav flex-column px-2">
