@@ -173,6 +173,10 @@
                     <div class="col-12">
                         <h6 class="text-muted border-bottom pb-1 mb-2">Dados básicos</h6>
                     </div>
+                    <div class="col-12">
+                        <small class="text-muted d-block">Descrição</small>
+                        <span class="text-break">{{ $aplicacao->descricao ?? '—' }}</span>
+                    </div>
                     <div class="col-md-6">
                         <small class="text-muted d-block">IP</small>
                         <span>{{ $aplicacao->ip ?? '—' }}</span>
