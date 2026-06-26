@@ -30,6 +30,15 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
+                <div class="col-12">
+                    <label for="descricao" class="form-label">Descrição</label>
+                    <textarea id="descricao" name="descricao" rows="3"
+                            class="form-control @error('descricao') is-invalid @enderror"
+                            placeholder="Breve descrição da aplicação...">{{ old('descricao', $aplicacao->descricao) }}</textarea>
+                    @error('descricao')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
                 <div class="col-md-6">
                     <label for="ip" class="form-label">IP</label>

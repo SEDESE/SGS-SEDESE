@@ -16,6 +16,7 @@ return new class extends Migration
                   ->nullOnDelete();
 
             $table->string('nome_aplicacao');
+            $table->text('descricao')->nullable();
             $table->string('ip', 45)->nullable();
             $table->enum('ambiente', ['Producao', 'Homologacao', 'Desenvolvimento'])->nullable();
             $table->string('url')->nullable();

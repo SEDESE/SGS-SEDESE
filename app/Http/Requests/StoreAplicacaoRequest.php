@@ -18,6 +18,7 @@ class StoreAplicacaoRequest extends FormRequest
         return [
             'so_id'                 => 'nullable|exists:sistemas_operacionais,id',
             'nome_aplicacao'        => 'required|string|max:255',
+            'descricao'             => 'nullable|string|max:2000',
             'ip'                    => 'nullable|string|max:45',
             'ambiente'              => ['nullable', new Enum(Ambiente::class)],
             'url'                   => 'nullable|string|max:255',

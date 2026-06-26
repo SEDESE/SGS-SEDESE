@@ -13,6 +13,10 @@
         </a>
     </div>
 </div>
+<div class="col-12">
+    <small class="text-muted d-block">Descrição</small>
+    <span class="text-break">{{ $aplicacao->descricao ?? '—' }}</span>
+</div>
 
 <div class="card">
     <div class="card-body">

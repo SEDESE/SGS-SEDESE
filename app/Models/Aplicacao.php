@@ -19,6 +19,7 @@ class Aplicacao extends Model
     protected $fillable = [
         'so_id',
         'nome_aplicacao',
+        'descricao',
         'ip',
         'ambiente',
         'url',

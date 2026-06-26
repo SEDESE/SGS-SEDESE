@@ -20,6 +20,7 @@ class AplicacaoService
     private const LABELS_CAMPOS = [
         'so_id'                 => 'Sistema Operacional',
         'nome_aplicacao'        => 'Nome',
+        'descricao'             => 'Descrição',
         'ip'                    => 'IP',
         'ambiente'              => 'Ambiente',
         'url'                   => 'URL',
@@ -60,6 +61,7 @@ class AplicacaoService
                   ->orWhere('git',                  'like', "%{$busca}%")
                   ->orWhere('empresa_desenvolvedor','like', "%{$busca}%")
                   ->orWhere('responsavel_diretor',  'like', "%{$busca}%")
+                  ->orWhere('descricao', 'like', "%{$busca}%")
                   ->orWhereHas('sistemaOperacional', fn ($sq) =>
                       $sq->where('nome', 'like', "%{$busca}%")
                   );
@@ -157,6 +159,7 @@ class AplicacaoService
         $prepared = [
             'so_id'                 => ($dados['so_id'] ?? null) ?: null,
             'nome_aplicacao'        => $dados['nome_aplicacao'],
+            'descricao'             => ($dados['descricao'] ?? null) ?: null,
             'ip'                    => ($dados['ip'] ?? null) ?: null,
             'ambiente'              => !empty($dados['ambiente'] ?? null)
                                           ? Ambiente::from($dados['ambiente'])
